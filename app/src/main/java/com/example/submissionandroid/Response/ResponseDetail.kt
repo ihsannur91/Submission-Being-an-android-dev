@@ -253,5 +253,3 @@ data class Requirements(
 	@field:SerializedName("minimum")
 	val minimum: String? = null
 )
-
-

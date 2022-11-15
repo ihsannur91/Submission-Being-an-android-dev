@@ -1,5 +1,6 @@
 package com.example.submissionandroid
 
+import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,7 +11,9 @@ import com.example.submissionandroid.Response.ResultsItem
 import com.example.submissionandroid.databinding.ItemRowListBinding
 import kotlin.math.log
 
-class AndroidAdapter(private val listData: List<ResultsItem>): RecyclerView.Adapter<AndroidAdapter.AndroidViewHolder>() {
+class AndroidAdapter(private val activity: Activity): RecyclerView.Adapter<AndroidAdapter.AndroidViewHolder>() {
+
+	var listData: List<ResultsItem>? = null
 
 	inner class AndroidViewHolder(private val binding: ItemRowListBinding): RecyclerView.ViewHolder(binding.root) {
 
@@ -40,12 +43,15 @@ class AndroidAdapter(private val listData: List<ResultsItem>): RecyclerView.Adap
 	}
 
 	override fun onBindViewHolder(holder: AndroidViewHolder, position: Int) {
-		val item = listData[position]
-		holder.bind(item)
+		val item = listData?.get(position)
+		if (item != null) {
+			holder.bind(item)
+		}
 		}
 
 	override fun getItemCount(): Int {
-		return listData.size
+		if (listData == null) return 0
+		else return listData?.size!!
 	}
 }
 

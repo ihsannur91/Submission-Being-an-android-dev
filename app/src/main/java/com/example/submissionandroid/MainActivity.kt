@@ -2,9 +2,11 @@ package com.example.submissionandroid
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissionandroid.Response.Response
@@ -17,6 +19,7 @@ import retrofit2.Callback
 class MainActivity : AppCompatActivity() {
 
 	private lateinit var binding: ActivityMainBinding
+	lateinit var recyclerAdapter: AndroidAdapter
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -30,34 +33,22 @@ class MainActivity : AppCompatActivity() {
 	}
 
 	private fun getData( search : String? = null) {
+		binding.rvMain.layoutManager = LinearLayoutManager(this)
+		recyclerAdapter = AndroidAdapter(this)
+		binding.rvMain.adapter = recyclerAdapter
 
-		var loading = ProgressDialog.progressDialog(this)
-		loading.show()
-
-		ApiConfig.service().getGame(search).enqueue(object : Callback<Response> {
-			override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
-				if (response.isSuccessful){
-					val responseBody = response.body()
-					val listDataGame = responseBody?.results?.sortedBy { it?.released }
-					//memanggil adapter
-					val androidAdapter = AndroidAdapter(listDataGame as List<ResultsItem>)
-					//buat nampilin list dari adapter ke view
-
-					binding.rvMain.apply {
-						layoutManager = LinearLayoutManager(this@MainActivity)
-						setHasFixedSize(true)
-						adapter = androidAdapter
-
-					}
-				}
-					loading.dismiss()
-			}
-
-			override fun onFailure(call: Call<Response>, t: Throwable) {
-				loading.dismiss()
-				Toast.makeText(this@MainActivity, t.localizedMessage, Toast.LENGTH_SHORT).show()
+		val viewModel:MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+		viewModel.makeApiCall()
+		viewModel.getLiveDataObserver().observe(this, Observer {
+			Log.d("Response", it.toString())
+			if (it != null){
+				recyclerAdapter.listData = it
+				recyclerAdapter.notifyDataSetChanged()
+			} else{
+				Toast.makeText(this, "Error getting list", Toast.LENGTH_SHORT).show()
 			}
 		})
+
 	}
 
 	fun EditText.onSubmit(func: () -> Unit){
@@ -68,5 +59,4 @@ class MainActivity : AppCompatActivity() {
 			true
 		}
 	}
-
 }
