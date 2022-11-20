@@ -1,4 +1,4 @@
-package com.example.submissionandroid.Response
+package com.example.submissionandroid.response
 
 import com.google.gson.annotations.SerializedName
 
@@ -160,49 +160,8 @@ data class ResponseDetail(
 	@field:SerializedName("screenshots_count")
 	val screenshotsCount: Int? = null,
 
-	@field:SerializedName("reactions")
-	val reactions: Reactions? = null,
-
 	@field:SerializedName("clip")
 	val clip: Any? = null
-)
-
-
-
-data class Reactions(
-
-	@field:SerializedName("1")
-	val jsonMember1: Int? = null,
-
-	@field:SerializedName("12")
-	val jsonMember12: Int? = null,
-
-	@field:SerializedName("3")
-	val jsonMember3: Int? = null,
-
-	@field:SerializedName("4")
-	val jsonMember4: Int? = null,
-
-	@field:SerializedName("15")
-	val jsonMember15: Int? = null,
-
-	@field:SerializedName("5")
-	val jsonMember5: Int? = null,
-
-	@field:SerializedName("6")
-	val jsonMember6: Int? = null,
-
-	@field:SerializedName("7")
-	val jsonMember7: Int? = null,
-
-	@field:SerializedName("9")
-	val jsonMember9: Int? = null,
-
-	@field:SerializedName("10")
-	val jsonMember10: Int? = null,
-
-	@field:SerializedName("21")
-	val jsonMember21: Int? = null
 )
 
 
@@ -245,11 +204,4 @@ data class DevelopersItem(
 
 	@field:SerializedName("slug")
 	val slug: String? = null
-)
-
-
-data class Requirements(
-
-	@field:SerializedName("minimum")
-	val minimum: String? = null
 )

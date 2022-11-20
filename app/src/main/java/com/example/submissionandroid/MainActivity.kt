@@ -3,18 +3,13 @@ package com.example.submissionandroid
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
+import android.widget.SearchView.OnQueryTextListener
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.submissionandroid.Response.Response
-import com.example.submissionandroid.Response.ResultsItem
 import com.example.submissionandroid.databinding.ActivityMainBinding
-import com.example.submissionandroid.network.ApiConfig
-import retrofit2.Call
-import retrofit2.Callback
+import com.example.submissionandroid.response.ResultsItem
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,24 +21,48 @@ class MainActivity : AppCompatActivity() {
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-		binding.tvSearch.onSubmit { getData(binding.tvSearch.text.toString()) }
+
+		binding.tvSearch.setOnQueryTextListener(object : OnQueryTextListener {
+			override fun onQueryTextSubmit(p0: String?): Boolean {
+				if (p0 != null) {
+					getData(p0)
+				}
+				return true
+			}
+			override fun onQueryTextChange(p0: String?): Boolean {
+
+				getData(p0)
+
+				return false
+			}
+		})
 
 		getData()
-
 	}
 
 	private fun getData( search : String? = null) {
+
+		val loading = ProgressDialog.progressDialog(this)
+		loading.show()
+
+		if (search != null) {
+			Log.d("search", search)
+		}
+
+
+
 		binding.rvMain.layoutManager = LinearLayoutManager(this)
 		recyclerAdapter = AndroidAdapter(this)
 		binding.rvMain.adapter = recyclerAdapter
 
 		val viewModel:MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-		viewModel.makeApiCall()
+		viewModel.makeApiCall(search)
 		viewModel.getLiveDataObserver().observe(this, Observer {
 			Log.d("Response", it.toString())
 			if (it != null){
-				recyclerAdapter.listData = it
+				recyclerAdapter.listData = it as List<ResultsItem>?
 				recyclerAdapter.notifyDataSetChanged()
+				loading.dismiss()
 			} else{
 				Toast.makeText(this, "Error getting list", Toast.LENGTH_SHORT).show()
 			}
@@ -51,12 +70,5 @@ class MainActivity : AppCompatActivity() {
 
 	}
 
-	fun EditText.onSubmit(func: () -> Unit){
-		setOnEditorActionListener{ _, actionId, _ ->
-			if (actionId == EditorInfo.IME_ACTION_DONE){
-				func()
-			}
-			true
-		}
-	}
 }
+

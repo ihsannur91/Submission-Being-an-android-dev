@@ -1,4 +1,4 @@
-package com.example.submissionandroid.Response
+package com.example.submissionandroid.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -351,9 +351,6 @@ data class ResultsItem(
 
 	@field:SerializedName("background_image")
 	val backgroundImage: String? = null,
-
-	@field:SerializedName("tba")
-	val tba: Boolean? = null,
 
 	@field:SerializedName("dominant_color")
 	val dominantColor: String? = null,

@@ -2,14 +2,12 @@ package com.example.submissionandroid
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.submissionandroid.Response.ResultsItem
+import com.example.submissionandroid.response.ResultsItem
 import com.example.submissionandroid.databinding.ItemRowListBinding
-import kotlin.math.log
 
 class AndroidAdapter(private val activity: Activity): RecyclerView.Adapter<AndroidAdapter.AndroidViewHolder>() {
 

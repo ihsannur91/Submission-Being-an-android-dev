@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
 
-	const val baseUrl = "https://api.rawg.io/api/"
+	private const val baseUrl = "https://api.rawg.io/api/"
 
 	private fun retrofit(): Retrofit{
 		return Retrofit.Builder()

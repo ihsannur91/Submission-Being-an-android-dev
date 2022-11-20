@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">SubmissionAndroid</string>
+    <string name="game_image">game</string>
+    <string name="judul">judul</string>
+    <string name="release">Release</string>
+    <string name="date">12-02-2004</string>
+    <string name="example_date">juni</string>
+    <string name="rating">Rate</string>
+    <string name="rate">RateValue</string>
+    <string name="rate_value">rate</string>
+    <string name="example_rating">Rate</string>
+    <string name="platform">platform</string>
+    <string name="example_platform">platform value</string>
+    <string name="genre">"Genre : "</string>
+    <string name="example_genre">Genre Value</string>
+    <string name="desc">"Deskripsi : "</string>
+    <string name="minimum_specs">"Deskripsi : "</string>
+    <string name="available_on">"Available on : "</string>
+    <string name="example_store">value</string>
+    <string name="example_spec">"Deskripsi : "</string>
 </resources>

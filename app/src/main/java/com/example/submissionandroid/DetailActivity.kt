@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.example.submissionandroid.Response.ResponseDetail
+import com.example.submissionandroid.response.ResponseDetail
 import com.example.submissionandroid.databinding.ActivityDetailBinding
 import com.example.submissionandroid.network.ApiConfig
 import retrofit2.Call
@@ -21,7 +21,7 @@ class DetailActivity : AppCompatActivity() {
 		binding = ActivityDetailBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
-			var loading = ProgressDialog.progressDialog(this)
+			val loading = ProgressDialog.progressDialog(this)
 			loading.show()
 
 			val id = intent.getStringExtra("id")
@@ -37,12 +37,18 @@ class DetailActivity : AppCompatActivity() {
 
 						binding.apply {
 							tvJudul.text = responseBody?.name
-							tvDeskripsi.text = responseBody?.description
+							detailGameReleaseDesc.text = responseBody?.released
+							detailGameRatingDesc.text = "${responseBody?.rating}/5"
+							valuePlatform.text =
+								" " + responseBody?.parentPlatforms?.map { it?.platform?.name }?.joinToString()
+							valueGenre.text = " " + responseBody?.genres?.map { it?.name }?.joinToString()
+							valueAvailable.text = " " + responseBody?.stores?.map { it?.store?.name }?.joinToString()
+							valueDeskripsi.text = responseBody?.description
 
 							Glide.with(this@DetailActivity)
 								.load(responseBody?.backgroundImage)
 								.error(R.drawable.ic_launcher_background)
-								.into(imgGames)
+								.into(imgDetail)
 						}
 					}
 
